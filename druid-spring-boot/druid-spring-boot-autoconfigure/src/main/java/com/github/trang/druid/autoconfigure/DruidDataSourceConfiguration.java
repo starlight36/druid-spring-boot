@@ -139,7 +139,8 @@ public class DruidDataSourceConfiguration {
                 druidDataSource.setName(beanName);
                 // 将 'spring.datasource.druid.data-sources.${name}' 的配置绑定到 Bean
                 if (!dataSources.isEmpty()) {
-                    Binder.get(environment).bind(PREFIX + "." + beanName, Bindable.ofInstance(druidDataSource));
+                    String hyphenBeanName = CharMatcher.camelToHyphen().apply(beanName);
+                    Binder.get(environment).bind(PREFIX + "." + hyphenBeanName, Bindable.ofInstance(druidDataSource));
                 }
                 // 定制化配置，拥有最高优先级，会覆盖之前已有的配置
                 customizers.forEach(customizer -> customizer.customize(druidDataSource));
